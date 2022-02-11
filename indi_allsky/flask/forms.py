@@ -129,6 +129,14 @@ def ADU_ROI_validator(form, field):
         raise ValidationError('ADU Region of Interest must be 0 or greater')
 
 
+def SQM_ROI_validator(form, field):
+    if not isinstance(field.data, int):
+        raise ValidationError('Please enter valid number')
+
+    if field.data < 0:
+        raise ValidationError('SQM Region of Interest must be 0 or greater')
+
+
 def LOCATION_LATITUDE_validator(form, field):
     if not isinstance(field.data, (int, float)):
         raise ValidationError('Please enter valid number')
@@ -169,7 +177,8 @@ def NIGHT_MOONMODE_ALT_DEG_validator(form, field):
     if field.data < -90:
         raise ValidationError('Moon altitude must be greater than -90')
 
-    if field.data > 90:
+    # 91 is disabled
+    if field.data > 91:
         raise ValidationError('Moon altitude must be less than 90')
 
 
@@ -532,6 +541,10 @@ class IndiAllskyConfigForm(FlaskForm):
     ADU_ROI_X2                       = IntegerField('ADU ROI x2', validators=[ADU_ROI_validator])
     ADU_ROI_Y2                       = IntegerField('ADU ROI y2', validators=[ADU_ROI_validator])
     DETECT_STARS                     = BooleanField('Star Detection')
+    SQM_ROI_X1                       = IntegerField('SQM ROI x1', validators=[SQM_ROI_validator])
+    SQM_ROI_Y1                       = IntegerField('SQM ROI y1', validators=[SQM_ROI_validator])
+    SQM_ROI_X2                       = IntegerField('SQM ROI x2', validators=[SQM_ROI_validator])
+    SQM_ROI_Y2                       = IntegerField('SQM ROI y2', validators=[SQM_ROI_validator])
     LOCATION_LATITUDE                = FloatField('Latitude', validators=[LOCATION_LATITUDE_validator])
     LOCATION_LONGITUDE               = FloatField('Longitude', validators=[LOCATION_LONGITUDE_validator])
     DAYTIME_CAPTURE                  = BooleanField('Daytime Capture')
